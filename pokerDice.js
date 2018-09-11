@@ -5,7 +5,7 @@
 // (5 points): As a developer, I want to make consistent commits accompanied with good, descriptive commit messages.
 
 // what game to make?
-    // poker like game? : Keep rolling for better chance of good cards? vs a random hand; 
+// poker like game? : Keep rolling for better chance of good cards? vs a random hand; 
 
 "use strict";
 
@@ -16,21 +16,23 @@
 // Dice 5: roll = 1 gives t9, roll 2-4 gives t4 min, roll > 4 gives t2 min
 // Dice 6: roll = 1 gives t9, roll = 2 gives t3 min, roll > 3 gives t1
 
-let handRankArray = [[A9, K9, Q9, J8, T8, 87, 76, 65, 54], // add t9
-                    [J9, T9, 98, 44, 33, 22],
-                    [AT, KT, QT, 55],
-                    [KJ, QJ, JT, 77, 66],
-                    [AJ, KQ, 88],
-                    [AQ, 99],
-                    [AK,TT],
-                    [AA, KK, QQ, JJ]];
 
 function runPokerDice() {
-    
+    let handRankArray = [[A9, K9, Q9, J8, T8, 87, 76, 65, 54], 
+    [J9, T9, 98, 44, 33, 22],
+    [AT, KT, QT, 55],
+    [KJ, QJ, JT, 77, 66],
+    [AJ, KQ, 88],
+    [AQ, 99],
+    [AK, TT],
+    [AA, KK, QQ, JJ]];
+
+    let diceArray = [20, 12, 10, 8, 6, 4];
+
 }
 
-// display potential dice roll to user
-function displayNextRoll() {
+// display next available dice roll to user
+function displayNextRoll(lastRoll) {
 
 }
 
@@ -55,5 +57,5 @@ function displayHands(userHand) {
 
 // all in style(display flop, turn and river all at once (maybe turn and river cards shown after 1 second delay from the initial flop showing))
 function generateFlop(userHand, compHand) {
-        // probbly no return (void) just prints all out 
+    // probbly no return (void) just prints all out 
 }
