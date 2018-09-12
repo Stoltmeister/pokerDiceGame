@@ -72,7 +72,8 @@ function runPokerDice() {
     }
 
     // function testing zone
-    console.log(displayNextDie(0, diceSidesArray));
+    console.log(calculateRoll(5));
+    
 
 }
 
@@ -85,9 +86,9 @@ function displayNextDie(previousDieIndex, diceArray) {
 }
 
 // calculate dice roll (based on number of sides)
-// Working []
+// Working [✔]
 function calculateRoll(numSides) {
-    let roll = Math.floor(Math.random * numSides) + 1;
+    let roll = Math.floor(Math.random() * numSides) + 1;
     return roll;
 }
 
@@ -115,8 +116,7 @@ function generateFlop(userHand, compHand, NumberOfPossibleHands, handsArray) {
     let usedCards = [userHand, compHand];
     let flopCards = [];
     let numCardsInFlop;
-    //let turn;
-    //let river;
+    // maybe turn and river seperately in future version (maybe suits later too)
 
     for (let i = 0; i < NumberOfPossibleHands; i++) {
         flopCards.push(Math.floor(Math.random * NumberOfPossibleHands) + 1);
