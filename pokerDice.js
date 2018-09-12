@@ -14,7 +14,6 @@ runPokerDice();
 
 function runPokerDice() {
 
-    // 1 extra hand?
     let handRankArray = [
         ["A8", "A7", "A6", "A5", "A4", "A3", "A2",
             "K8", "K7", "K6", "K5", "K4", "K3", "K2",
@@ -40,6 +39,7 @@ function runPokerDice() {
         "A", "A", "A", "A",
         "K", "K", "K", "K",
         "Q", "Q", "Q", "Q",
+        "J", "J", "J", "J",
         "T", "T", "T", "T",
         "9", "9", "9", "9",
         "8", "8", "8", "8",
@@ -71,37 +71,46 @@ function runPokerDice() {
         NumberOfPossibleHands += handRankArray[i].length;
     }
 
+    // function testing zone
+    console.log(displayNextDie(0, diceSidesArray));
+
 }
 
-// display next available dice roll to user
-function displayNextRoll(previousDiceIndex, diceArray) {
-    let nextDice;
-    let rollNext = prompt("The next available dice is : " + nextDice + " do you wish to roll it?");
+// display next available dice roll to user and returns (y/n) if they wish to roll
+// Working [✔]
+function displayNextDie(previousDieIndex, diceArray) {
+    let nextDiceSides = diceArray[previousDieIndex + 1]
+    let rollNext = prompt("The next available dice is a " + nextDiceSides + " sided die. Do you wish to roll it? (Y/N) ");
     return rollNext;
 }
 
 // calculate dice roll (based on number of sides)
+// Working []
 function calculateRoll(numSides) {
     let roll = Math.floor(Math.random * numSides) + 1;
     return roll;
 }
 
 // display current hand chances to user(what minimum tier hand they are going to get);
+// Working []
 function displayHand(lastRoll, lastDice, diceStartingTier) {
     let minimumTier;
 }
 
 // calculate user hand based on what they rolled(minimum tier level then random chance)
+// Working []
 function calculateHand(minTier, handRankArray) {
     return userHand;
 }
 
 // display hand user gets and computer gets
+// Working []
 function displayHands(userHand) {
 
 }
 
 // all in style(display flop, turn and river all at once (maybe turn and river cards shown after 1 second delay from the initial flop showing))
+// Working []
 function generateFlop(userHand, compHand, NumberOfPossibleHands, handsArray) {
     let usedCards = [userHand, compHand];
     let flopCards = [];
@@ -123,13 +132,16 @@ function generateFlop(userHand, compHand, NumberOfPossibleHands, handsArray) {
 }
 
 // picks one random possible card
+// Working []
 function getRandomCard(remainingCardsArray) {
+    // no + 1 since using full length
     let randomNumber = Math.floor(Math.random(remainingCardsArray.length));
     let randomCard = remainingCardsArray[randomNumber];
     return randomCard;
 }
 
 // return an array with all cards left
+// Working [✔]
 function removeUsedCards(usedCards, allCardsArray) {
     let remainingCards = allCardsArray;
     for (let i = 0; i < usedCards.length; i++) {
