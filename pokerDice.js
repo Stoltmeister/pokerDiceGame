@@ -59,11 +59,12 @@ function runPokerDice() {
     // Dice 6: roll = 1 gives t9, roll = 2 gives t3 min, roll = 3 gives t2
 
     let diceSidesArray = [20, 12, 10, 8, 6, 4];
+    let diceCount = diceSidesArray.length - 1;
     // The numbers in these arrays indicate the minimum roll value to not recieve a random card,
     // then the minimum roll values needed to get better hand tiers. (starting one tier better each dice further in the array)
-    let diceRollValuesArray = [[9, 14, 19, 20], [4, 9, 11, 12], [3, 6, 9, 10],
-    [2, 4, 6, 8], [2, 4, 6], [2, 3, 5]];
-    let diceStartingTier = [8, 7, 6, 5, 4, 3];
+    let rollValueTierArray = [[9, 14, 19, 20], [4, 9, 11, 12], [3, 6, 9, 10],
+    [2, 4, 6, 8], [2, 4, 6], [2, 3, 4]];
+    let handStartingLevelArray = [1, 2, 3, 4, 5, 6];
 
     // getting number of hands possible
     let NumberOfPossibleHands;
@@ -71,10 +72,8 @@ function runPokerDice() {
         NumberOfPossibleHands += handRankArray[i].length;
     }
 
-    // function testing zone
-    console.log(calculateRoll(5));
-    
-
+    // function testing zone: 
+    console.log(calculateHandLevel(2, 4, handStartingLevelArray, rollValueTierArray));
 }
 
 // display next available dice roll to user and returns (y/n) if they wish to roll
@@ -92,15 +91,33 @@ function calculateRoll(numSides) {
     return roll;
 }
 
-// display current hand chances to user(what minimum tier hand they are going to get);
-// Working []
-function displayHand(lastRoll, lastDice, diceStartingTier) {
-    let minimumTier;
+// return the minimum hand index given the current dice and roll values
+// Working [✔]
+function calculateHandLevel(rollValue, diceIndex, handStartingLevelArray, rollValueTierArray) {
+    let minimumHandIndex;
+    let startingTier = handStartingLevelArray[diceIndex];
+    if (rollValue < rollValueTierArray[diceIndex][0]) {
+        minimumHandIndex = 0;
+    }
+    for (let i = 0; i < rollValueTierArray[diceIndex].length; i++) {
+        if (rollValue >= rollValueTierArray[diceIndex][i]) {
+            minimumHandIndex = startingTier + i;
+        }
+    }
+
+    return minimumHandIndex;
 }
 
-// calculate user hand based on what they rolled(minimum tier level then random chance)
+//(what minimum tier hand they are going to get);
 // Working []
-function calculateHand(minTier, handRankArray) {
+function displayRollResults(rollValue, diceSides, handStartingTier) {
+    console.log("You rolled " + rollValue + " out of " + diceSides);
+    console.log("Your minimum hand strength is tier " + handStartingTier);
+}
+
+// gives user a random hand based on what they rolled(minimum tier level then random chance)
+// Working []
+function dealHand(minTier, handRankArray) {
     return userHand;
 }
 
