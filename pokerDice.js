@@ -73,7 +73,7 @@ function runPokerDice() {
     }
 
     // function testing zone: 
-    console.log(calculateHandLevel(2, 4, handStartingLevelArray, rollValueTierArray));
+    console.log(dealHand(3, handRankArray));
 }
 
 // display next available dice roll to user and returns (y/n) if they wish to roll
@@ -116,15 +116,20 @@ function displayRollResults(rollValue, diceSides, handStartingTier) {
 }
 
 // gives user a random hand based on what they rolled(minimum tier level then random chance)
-// Working []
+// future will give higher odds to get worse hands*
+// Working [✔]
 function dealHand(minTier, handRankArray) {
+    let numPossibleTiers = (handRankArray.length) - minTier;
+    let handTier = Math.floor(Math.random() * numPossibleTiers) + minTier;
+    let handIndex = Math.floor(Math.random() * handRankArray[handTier].length);
+    let userHand = handRankArray[handTier][handIndex];
     return userHand;
 }
 
 // display hand user gets and computer gets
 // Working []
-function displayHands(userHand) {
-
+function displayHands(userHand, compHand) {
+    console.log();
 }
 
 // all in style(display flop, turn and river all at once (maybe turn and river cards shown after 1 second delay from the initial flop showing))
