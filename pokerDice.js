@@ -73,7 +73,8 @@ function runPokerDice() {
     }
 
     // function testing zone: 
-    console.log(dealHand(3, handRankArray));
+    generateFlop("JJ", "TT", NumberOfPossibleHands);
+
 }
 
 // display next available dice roll to user and returns (y/n) if they wish to roll
@@ -109,7 +110,7 @@ function calculateHandLevel(rollValue, diceIndex, handStartingLevelArray, rollVa
 }
 
 //(what minimum tier hand they are going to get);
-// Working []
+// Working [✔]
 function displayRollResults(rollValue, diceSides, handStartingTier) {
     console.log("You rolled " + rollValue + " out of " + diceSides);
     console.log("Your minimum hand strength is tier " + handStartingTier);
@@ -127,9 +128,10 @@ function dealHand(minTier, handRankArray) {
 }
 
 // display hand user gets and computer gets
-// Working []
+// Working [✔]
 function displayHands(userHand, compHand) {
-    console.log();
+    console.log("Your hand is: " + userHand + "\n");
+    console.log("The computer's hand is: " + compHand);
 }
 
 // all in style(display flop, turn and river all at once (maybe turn and river cards shown after 1 second delay from the initial flop showing))
@@ -137,7 +139,7 @@ function displayHands(userHand, compHand) {
 function generateFlop(userHand, compHand, NumberOfPossibleHands, handsArray) {
     let usedCards = [userHand, compHand];
     let flopCards = [];
-    let numCardsInFlop;
+    let numCardsInFlop = 6;
     // maybe turn and river seperately in future version (maybe suits later too)
 
     for (let i = 0; i < NumberOfPossibleHands; i++) {
@@ -150,6 +152,8 @@ function generateFlop(userHand, compHand, NumberOfPossibleHands, handsArray) {
             flopCards.push(Math.floor(Math.random * NumberOfPossibleHands) + 1);
         }
     }
+
+    console.log(flopCards);
 
 }
 
@@ -174,4 +178,74 @@ function removeUsedCards(usedCards, allCardsArray) {
         }
     }
     return remainingCards;
+}
+
+// likely biggest function - score a hand with the best combo of cards
+function evaluateScore(flopCards, handCards) {
+    let score;
+    let cardsAvailable = flopCards + handCards;
+
+    // win conditions from best combinations to worst(no suits)
+    isFourOfAKind();
+    isFullHouse();
+    isStraight();
+    isThreeOfAKind();
+    isTwoPair();
+    isPair();
+    isHighCard();
+    // Straight
+    // Three of a kind
+    // Two Pair
+    // Pair
+    // High Card
+
+    return winner;
+}
+
+// Four of a Kind
+function isFourOfAKind(cards) {
+    let counter = 0;
+    let cardToEvaluate;
+    for (let i = 0; i < cardsAvailable; i++) {
+        cardToEvaluate = cardsAvailable[i];
+        for (let j = 0; j < cardsAvailable; j++) {
+            if (cardsAvailable[i] === cardsAvailable[j]) {
+                counter++;
+            }
+        }
+        if (counter > 4) {
+            return true;
+        }
+    }
+}
+// Full House
+function isFullHouse(cards) {
+
+}
+
+function isStraight() {
+
+}
+
+function isThreeOfAKind() {
+
+}
+
+function isTwoPair() {
+
+}
+
+function isPair() {
+
+}
+function highestCard(userHand, compHand) {
+    
+}
+
+
+
+
+// if both cards have same win condition find winner/determine if chop
+function compareHands(userCardCombo, compCardCombo) {
+    // basically which combo has the high card between them
 }
