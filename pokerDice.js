@@ -36,8 +36,20 @@ function runPokerDice() {
         ["AQ", "99"],
         ["AK", "TT"],
         ["AA", "KK", "QQ", "JJ"]];
-
-    handRankArray.toString();
+    let allCardsArray = [
+        "A", "A", "A", "A",
+        "K", "K", "K", "K",
+        "Q", "Q", "Q", "Q",
+        "T", "T", "T", "T",
+        "9", "9", "9", "9",
+        "8", "8", "8", "8",
+        "7", "7", "7", "7",
+        "6", "6", "6", "6",
+        "5", "5", "5", "5",
+        "4", "4", "4", "4",
+        "3", "3", "3", "3",
+        "2", "2", "2", "2",
+    ]
 
     // Dice 1: roll < 9 gives t9, roll > 9 gives t8 min, roll > 14 gives t7 min, roll 16-19 gives t6 minimum, roll 20 gives t5 minimum
     // Dice 2: roll < 4 gives t9, roll > 2 gives t7 min, roll > 8 gives t6 min, roll 10-11 gives t5 minimum, roll 12 gives t4 minimum
@@ -45,12 +57,16 @@ function runPokerDice() {
     // Dice 4: roll < 3 gives t9, roll > 3 gives t5 min, roll > 15 gives t7 min, roll 16-19 gives t6 minimum,
     // Dice 5: roll = 1 gives t9, roll 2-4 gives t4 min, roll > 4 gives t2 min
     // Dice 6: roll = 1 gives t9, roll = 2 gives t3 min, roll = 3 gives t2
+
     let diceSidesArray = [20, 12, 10, 8, 6, 4];
+    // The numbers in these arrays indicate the minimum roll value to not recieve a random card,
+    // then the minimum roll values needed to get better hand tiers. (starting one tier better each dice further in the array)
     let diceRollValuesArray = [[9, 14, 19, 20], [4, 9, 11, 12], [3, 6, 9, 10],
     [2, 4, 6, 8], [2, 4, 6], [2, 3, 5]];
     let diceStartingTier = [8, 7, 6, 5, 4, 3];
-    let NumberOfPossibleHands;
+
     // getting number of hands possible
+    let NumberOfPossibleHands;
     for (let i = 0; i < handRankArray.length; i++) {
         NumberOfPossibleHands += handRankArray[i].length;
     }
@@ -86,15 +102,14 @@ function displayHands(userHand) {
 }
 
 // all in style(display flop, turn and river all at once (maybe turn and river cards shown after 1 second delay from the initial flop showing))
-function generateFlop(userHand, compHand, NumberOfPossibleHands) {
-    // probbly no return (void) just prints all out
+function generateFlop(userHand, compHand, NumberOfPossibleHands, handsArray) {
     let usedCards = [userHand, compHand];
     let flopCards = [];
     let numCardsInFlop;
-    let turn;
-    let river;
+    //let turn;
+    //let river;
 
-    for (let i = 0; i < numCardsInFlop; i++) {
+    for (let i = 0; i < NumberOfPossibleHands; i++) {
         flopCards.push(Math.floor(Math.random * NumberOfPossibleHands) + 1);
     }
 
@@ -104,4 +119,25 @@ function generateFlop(userHand, compHand, NumberOfPossibleHands) {
             flopCards.push(Math.floor(Math.random * NumberOfPossibleHands) + 1);
         }
     }
+
+}
+
+// picks one random possible card
+function getRandomCard(remainingCardsArray) {
+    let randomNumber = Math.floor(Math.random(remainingCardsArray.length));
+    let randomCard = remainingCardsArray[randomNumber];
+    return randomCard;
+}
+
+// return an array with all cards left
+function removeUsedCards(usedCards, allCardsArray) {
+    let remainingCards = allCardsArray;
+    for (let i = 0; i < usedCards.length; i++) {
+
+        if (remainingCards.includes(usedCards[i])) {
+            let cardToRemove = remainingCards.indexOf(usedCards[i]);
+            remainingCards.splice(cardToRemove, 1);
+        }
+    }
+    return remainingCards;
 }
