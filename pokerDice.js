@@ -51,12 +51,7 @@ function runPokerDice() {
         "2", "2", "2", "2",
     ]
 
-    // Dice 1: roll < 9 gives t9, roll > 9 gives t8 min, roll > 14 gives t7 min, roll 16-19 gives t6 minimum, roll 20 gives t5 minimum
-    // Dice 2: roll < 4 gives t9, roll > 2 gives t7 min, roll > 8 gives t6 min, roll 10-11 gives t5 minimum, roll 12 gives t4 minimum
-    // Dice 3: roll < 3 gives t9, roll > 2 gives t6 min, roll > 5 gives t5 min, roll 8-9 gives t4 minimum, roll 10 gives t3 minimum
-    // Dice 4: roll < 3 gives t9, roll > 3 gives t5 min, roll > 15 gives t7 min, roll 16-19 gives t6 minimum,
-    // Dice 5: roll = 1 gives t9, roll 2-4 gives t4 min, roll > 4 gives t2 min
-    // Dice 6: roll = 1 gives t9, roll = 2 gives t3 min, roll = 3 gives t2
+
 
     let diceSidesArray = [20, 12, 10, 8, 6, 4];
     let diceCount = diceSidesArray.length - 1;
@@ -73,7 +68,7 @@ function runPokerDice() {
     }
 
     // function testing zone: 
-    generateFlop("JJ", "TT", NumberOfPossibleHands);
+    console.log(getRandomCard(allCardsArray));
 
 }
 
@@ -143,13 +138,13 @@ function generateFlop(userHand, compHand, NumberOfPossibleHands, handsArray) {
     // maybe turn and river seperately in future version (maybe suits later too)
 
     for (let i = 0; i < NumberOfPossibleHands; i++) {
-        flopCards.push(Math.floor(Math.random * NumberOfPossibleHands) + 1);
+        flopCards.push(Math.floor(Math.random() * NumberOfPossibleHands) + 1);
     }
 
     while (usedCards.includes(flopCards)) {
         flopCards = [];
         for (let i = 0; i < numCardsInFlop; i++) {
-            flopCards.push(Math.floor(Math.random * NumberOfPossibleHands) + 1);
+            flopCards.push(Math.floor(Math.random() * NumberOfPossibleHands) + 1);
         }
     }
 
@@ -161,7 +156,7 @@ function generateFlop(userHand, compHand, NumberOfPossibleHands, handsArray) {
 // Working []
 function getRandomCard(remainingCardsArray) {
     // no + 1 since using full length
-    let randomNumber = Math.floor(Math.random(remainingCardsArray.length));
+    let randomNumber = Math.floor(Math.random() * remainingCardsArray.length);
     let randomCard = remainingCardsArray[randomNumber];
     return randomCard;
 }
@@ -238,12 +233,11 @@ function isTwoPair() {
 function isPair() {
 
 }
+
+
 function highestCard(userHand, compHand) {
-    
+
 }
-
-
-
 
 // if both cards have same win condition find winner/determine if chop
 function compareHands(userCardCombo, compCardCombo) {
