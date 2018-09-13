@@ -64,22 +64,26 @@ function runPokerDice() {
     // console.log(isStraight(randomCards, cardOrderArray));
 
     // Run the Program
-    //startGame(diceSidesArray, handStartingLevelArray, rollValueTierArray);
-
-    let startIndex = 0;
+    let currentIndex = 0;
     welcomeMessage();
-    let currentRoll = calculateRoll(diceSidesArray[startIndex]);
-    displayRollResults(currentRoll, diceSidesArray[startIndex], handStartingLevelArray[startIndex])
-    let currentMinTier = calculateHandLevel(currentRoll, startIndex, handStartingLevelArray, rollValueTierArray);
-    displayHandLevel(currentMinTier);
+    let continueGame = true;
+    let giveHand = false;
+
+    while (continueGame) {
+        let currentRoll = calculateRoll(diceSidesArray[currentIndex]);
+        displayRollResults(currentRoll, diceSidesArray[currentIndex], handStartingLevelArray[currentIndex])
+        let currentMinTier = calculateHandLevel(currentRoll, currentIndex, handStartingLevelArray, rollValueTierArray);
+        continueGame = displayHandLevel(currentMinTier);
+        currentIndex++;
+        if (continueGame) {
+            giveHand = !rollAgain();
+        }
+        else {
+            console.log("giving hand");
+        }
+    }
 }
-// welcome
-// function startGame(diceSidesArray, handStartingLevelArray, rollValueTierArray) {
-    
-// }
-
-
-
+// Working [✔]
 function welcomeMessage() {
     let isReady = false;
     console.log("Welcome to Dice Poker! This is how the game works: \n \n" + "- You have the chance to roll up to 6 dice");
@@ -94,6 +98,21 @@ function welcomeMessage() {
         }
     }
     return isReady;
+}
+// asdfasdf
+function rollAgain() {
+    let isRollingAgain = false;
+    while (!isRollingAgain) {
+        let input = prompt("Do you want to roll the next dice type: 'y' or 'n' ");
+        if (input === 'y') {
+            isRollingAgain = true;
+            return isRollingAgain;
+        }
+        if (input === 'n') {
+            return isRollingAgain;
+        }
+    }
+    return isRollingAgain;
 }
 // display next available dice roll to user and returns (y/n) if they wish to roll
 // Working [✔]
@@ -123,7 +142,6 @@ function calculateHandLevel(rollValue, diceIndex, handStartingLevelArray, rollVa
             minimumHandIndex = startingTier + i;
         }
     }
-
     return minimumHandIndex;
 }
 
