@@ -52,7 +52,7 @@ function runPokerDice() {
     ]
 
     let diceSidesArray = [20, 12, 10, 8, 6, 4];
-    let diceCount = diceSidesArray.length - 1;
+    //let diceCount = diceSidesArray.length - 1;
     // The numbers in these arrays indicate the minimum roll value to not recieve a random card,
     // then the minimum roll values needed to get better hand tiers. (starting one tier better each dice further in the array)
     let rollValueTierArray = [[9, 14, 19, 20], [4, 9, 11, 12], [3, 6, 9, 10],
@@ -60,11 +60,39 @@ function runPokerDice() {
     let handStartingLevelArray = [1, 2, 3, 4, 5, 6];
 
     // FUNCTION TESTING ZONE!: 
-    let randomCards = ["A", "2", "3", "4", "5", "7", "3"];
-    console.log(isStraight(randomCards, cardOrderArray));
+    // let randomCards = ["A", "2", "3", "4", "5", "7", "3"];
+    // console.log(isStraight(randomCards, cardOrderArray));
 
+    // Run the Program
+    startGame(diceSidesArray, handStartingLevelArray, rollValueTierArray);
+}
+// welcome
+function startGame(diceSidesArray, handStartingLevelArray, rollValueTierArray) {
+    let startIndex = 0;
+    welcomeMessage();
+    let currentRoll = calculateRoll(diceSidesArray[startIndex]);
+    displayRollResults(currentRoll, diceSidesArray[startIndex], handStartingLevelArray[startIndex])
+    let currentMinTier = calculateHandLevel(currentRoll, startIndex, handStartingLevelArray, rollValueTierArray);
+    displayHandLevel(currentMinTier);
 }
 
+
+
+function welcomeMessage() {
+    let isReady = false;
+    console.log("Welcome to Dice Poker! This is how the game works: \n \n" + "- You have the chance to roll up to 6 dice");
+    console.log("- If you roll too low you get a random hand, the higher you roll the better the hand! \n");
+    console.log("- If you roll higher than the minimum value you can roll the next die for an even better hand");
+    console.log("- But if you continue to roll you risk rolling low and getting a random hand \n \n");
+    console.log("Good Luck! \n ");
+    while (!isReady) {
+        let input = prompt("If you read the directions in the console are ready to roll your first dice type: 'y' ");
+        if (input === 'y') {
+            isReady = true;
+        }
+    }
+    return isReady;
+}
 // display next available dice roll to user and returns (y/n) if they wish to roll
 // Working [✔]
 function displayNextDie(previousDieIndex, diceArray) {
@@ -100,8 +128,22 @@ function calculateHandLevel(rollValue, diceIndex, handStartingLevelArray, rollVa
 //(what minimum tier hand they are going to get);
 // Working [✔]
 function displayRollResults(rollValue, diceSides, handStartingTier) {
-    console.log("You rolled " + rollValue + " out of " + diceSides);
-    console.log("Your minimum hand strength is tier " + handStartingTier);
+    console.log("You rolled " + rollValue + " out of " + diceSides + ".");
+}
+
+// Working [✔]
+function displayHandLevel(minimumHandIndex) {
+    let continuePlay = false;
+    if (minimumHandIndex === 0) {
+        console.log("You rolled too low so you get a random hand 😢");
+        return continuePlay;
+    }
+    else {
+        console.log("If you stop rolling now your minimum hand will be Level " + minimumHandIndex + ".");
+        continuePlay = true;
+        return continuePlay;
+    }
+
 }
 
 // gives user a random hand based on what they rolled(minimum tier level then random chance)
@@ -164,6 +206,7 @@ function removeUsedCards(usedCards, allCardsArray) {
 }
 
 // likely biggest function - score a hand with the best combo of cards
+// Working []
 function evaluateScore(flopCards, handCards) {
     let score;
     let cardsAvailable = flopCards + handCards;
@@ -310,7 +353,7 @@ function isPair(cards) {
 }
 
 // probably only need one of these next two functions
-function highestCard(userHand, compHand) {
+function highestCard(cards, cardOrderArray) {
 
 }
 
