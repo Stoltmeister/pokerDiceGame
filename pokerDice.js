@@ -58,8 +58,9 @@ function runPokerDice() {
     [2, 4, 6, 8], [2, 4, 6], [2, 3, 4]];
     let handStartingLevelArray = [1, 2, 3, 4, 5, 6];
 
-    // function testing zone: 
-    console.log(generateFlop([0], allCardsArray));
+    // FUNCTION TESTING ZONE!: 
+    let randomCards = ["J", "T", "8", "8", "8", "9", "2"];
+    console.log(isFourOfAKind(randomCards));
 
 }
 
@@ -184,20 +185,25 @@ function evaluateScore(flopCards, handCards) {
 }
 
 // Four of a Kind
+// Working [✔]
 function isFourOfAKind(cards) {
     let counter = 0;
     let cardToEvaluate;
-    for (let i = 0; i < cardsAvailable; i++) {
-        cardToEvaluate = cardsAvailable[i];
-        for (let j = 0; j < cardsAvailable; j++) {
-            if (cardsAvailable[i] === cardsAvailable[j]) {
+    for (let i = 0; i < cards.length; i++) {
+        cardToEvaluate = cards[i];
+        for (let j = 0; j < cards.length; j++) {
+            if (cardToEvaluate === cards[j]) {
                 counter++;
             }
         }
-        if (counter > 4) {
+        if (counter > 3) {
             return true;
         }
+        else {
+            counter = 0;
+        }
     }
+    return false;
 }
 // Full House
 function isFullHouse(cards) {
