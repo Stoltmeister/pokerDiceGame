@@ -68,28 +68,40 @@ function runPokerDice() {
     welcomeMessage();
     let continueGame = true;
     let giveHand = false;
+    let userHand;
+    let compHand;
 
     while (continueGame) {
         let currentRoll = calculateRoll(diceSidesArray[currentIndex]);
         displayRollResults(currentRoll, diceSidesArray[currentIndex], handStartingLevelArray[currentIndex])
         let currentMinTier = calculateHandLevel(currentRoll, currentIndex, handStartingLevelArray, rollValueTierArray);
         continueGame = displayHandLevel(currentMinTier);
-        currentIndex++;
+        if (currentIndex > 4) {
+            continueGame = false;
+            console.log("No more dice to roll! \n")
+        }
         if (continueGame) {
             continueGame = rollAgain(currentIndex, diceSidesArray);
             if (continueGame === false) {
-               console.log(dealHand(currentMinTier, handRankArray));
+               userHand = dealHand(currentMinTier, handRankArray);
+               compHand = dealHand(0, handRankArray);
+               displayHands(userHand, compHand);
+               combineHandCards(userHand, compHand);
             }
         }
         else {
-            console.log(dealHand(currentMinTier, handRankArray));
+            userHand = (dealHand(currentMinTier, handRankArray));
+            compHand = dealHand(0, handRankArray);
+            displayHands(userHand, compHand);
+            combineHandCards(userHand, compHand);
         }
+        currentIndex++;
     }
 }
 // Working [✔]
 function welcomeMessage() {
     let isReady = false;
-    console.log("Welcome to Dice Poker! This is how the game works: \n \n" + "- You have the chance to roll up to 6 dice");
+    console.log("Welcome to Dice Poker! ♠️ ♥️ ♦️ ♣️ This is how the game works: \n \n" + "- You have the chance to roll up to 6 dice");
     console.log("- If you roll too low you get a random hand, the higher you roll the better the hand! \n");
     console.log("- If you roll higher than the minimum value you can roll the next die for an even better hand");
     console.log("- But if you continue to roll you risk rolling low and getting a random hand \n \n");
@@ -213,6 +225,12 @@ function getRandomCard(remainingCardsArray) {
     let randomNumber = Math.floor(Math.random() * remainingCardsArray.length);
     let randomCard = remainingCardsArray[randomNumber];
     return randomCard;
+}
+
+// Working [✔]
+function combineHandCards(userHand, compHand) {
+    let usedCards = userHand + compHand;
+    return usedCards;
 }
 
 // return an array with all cards left
