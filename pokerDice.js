@@ -13,6 +13,7 @@ runPokerDice();
 
 function runPokerDice() {
 
+    let cardOrderArray = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
     let handRankArray = [
         ["A8", "A7", "A6", "A5", "A4", "A3", "A2",
             "K8", "K7", "K6", "K5", "K4", "K3", "K2",
@@ -59,8 +60,8 @@ function runPokerDice() {
     let handStartingLevelArray = [1, 2, 3, 4, 5, 6];
 
     // FUNCTION TESTING ZONE!: 
-    let randomCards = ["J", "T", "T", "2", "8", "9", "A"];
-    console.log(isPair(randomCards));
+    let randomCards = ["A", "J", "T", "T", "8", "9", "3"];
+    console.log(isTwoPair(randomCards));
 
 }
 
@@ -184,7 +185,6 @@ function evaluateScore(flopCards, handCards) {
     return winner;
 }
 
-// Four of a Kind
 // Working [✔]
 function isFourOfAKind(cards) {
     let counter = 0;
@@ -205,42 +205,85 @@ function isFourOfAKind(cards) {
     }
     return false;
 }
-// Full House
+
+// Working []
 function isFullHouse(cards) {
     let tripsCounter = 0;
     let pairCounter = 0;
 
 }
 
-function isStraight() {
+// Working []
+function isStraight(cards, cardOrderArray) {
+
 
 }
 
-function isThreeOfAKind() {
+// Working [✔]
+function isThreeOfAKind(cards) {
+    let cardChecked;
+    let counter = 0;
+
+    for (let i = 0; i < cards.length; i++) {
+        cardChecked = cards[i];
+        for (let j = 0; j < cards.length; j++) {
+            if (cardChecked === cards[j]) {
+                counter++;
+            }
+        }
+        if (counter > 2) {
+            return true;
+        }
+        // clear counter
+        counter = 0;
+    }
+    return false;
 
 }
 
-function isTwoPair() {
+// Working [✔]
+function isTwoPair(cards) {
+    let remainingCards = cards;
+    let cardBeingChecked;
+    let numPairs = 0;
+    let counter = 0;
 
-}
-
-function isPair(cards) {
-let cardChecked;
-let counter = 0;
-
-for (let i = 0; i < cards.length; i++) {
-    cardChecked = cards[i];
-    for (let j = 0; j < cards.length; j++) {
-        if (cardChecked === cards[j]) {
-            counter++;
+    for (let i = 0; i < remainingCards.length; i++) {
+        cardBeingChecked = remainingCards[i];
+        remainingCards.splice(i, 1);
+        for (let j = 0; j < remainingCards.length; j++) {
+            if (cardBeingChecked === remainingCards[j]) {
+                numPairs++;
+                break;
+            }
         }
     }
-    if (counter > 1) {
+    if (numPairs === 2) {
         return true;
     }
-    // clear counter
-    counter = 0;
+    return false;
+
 }
+
+// Working [✔]
+// could be cleaner with isTwoPairStyle
+function isPair(cards) {
+    let cardChecked;
+    let counter = 0;
+
+    for (let i = 0; i < cards.length; i++) {
+        cardChecked = cards[i];
+        for (let j = 0; j < cards.length; j++) {
+            if (cardChecked === cards[j]) {
+                counter++;
+            }
+        }
+        if (counter > 1) {
+            return true;
+        }
+        // clear counter
+        counter = 0;
+    }
     return false;
 }
 
