@@ -11,7 +11,6 @@
 
 runPokerDice();
 
-
 function runPokerDice() {
 
     let handRankArray = [
@@ -51,8 +50,6 @@ function runPokerDice() {
         "2", "2", "2", "2",
     ]
 
-
-
     let diceSidesArray = [20, 12, 10, 8, 6, 4];
     let diceCount = diceSidesArray.length - 1;
     // The numbers in these arrays indicate the minimum roll value to not recieve a random card,
@@ -61,14 +58,8 @@ function runPokerDice() {
     [2, 4, 6, 8], [2, 4, 6], [2, 3, 4]];
     let handStartingLevelArray = [1, 2, 3, 4, 5, 6];
 
-    // getting number of hands possible
-    let NumberOfPossibleHands;
-    for (let i = 0; i < handRankArray.length; i++) {
-        NumberOfPossibleHands += handRankArray[i].length;
-    }
-
     // function testing zone: 
-    console.log(getRandomCard(allCardsArray));
+    console.log(generateFlop([0], allCardsArray));
 
 }
 
@@ -129,31 +120,26 @@ function displayHands(userHand, compHand) {
     console.log("The computer's hand is: " + compHand);
 }
 
-// all in style(display flop, turn and river all at once (maybe turn and river cards shown after 1 second delay from the initial flop showing))
-// Working []
-function generateFlop(userHand, compHand, NumberOfPossibleHands, handsArray) {
-    let usedCards = [userHand, compHand];
+// all cards at once 
+// Working [✔]
+function generateFlop(usedCards, allCardsArray) {
     let flopCards = [];
+    let cardsAvailable = removeUsedCards(usedCards, allCardsArray);
     let numCardsInFlop = 6;
-    // maybe turn and river seperately in future version (maybe suits later too)
 
-    for (let i = 0; i < NumberOfPossibleHands; i++) {
-        flopCards.push(Math.floor(Math.random() * NumberOfPossibleHands) + 1);
+    // Add each flop card to used cards
+    for (let i = 0; i < numCardsInFlop; i++) {
+        flopCards.push(getRandomCard(cardsAvailable));
+        usedCards += flopCards[i];
+        cardsAvailable = removeUsedCards(usedCards, allCardsArray);
     }
 
-    while (usedCards.includes(flopCards)) {
-        flopCards = [];
-        for (let i = 0; i < numCardsInFlop; i++) {
-            flopCards.push(Math.floor(Math.random() * NumberOfPossibleHands) + 1);
-        }
-    }
-
-    console.log(flopCards);
+    return flopCards;
 
 }
 
 // picks one random possible card
-// Working []
+// Working [✔]
 function getRandomCard(remainingCardsArray) {
     // no + 1 since using full length
     let randomNumber = Math.floor(Math.random() * remainingCardsArray.length);
