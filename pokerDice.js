@@ -64,10 +64,8 @@ function runPokerDice() {
     // console.log(isStraight(randomCards, cardOrderArray));
 
     // Run the Program
-    startGame(diceSidesArray, handStartingLevelArray, rollValueTierArray);
-}
-// welcome
-function startGame(diceSidesArray, handStartingLevelArray, rollValueTierArray) {
+    //startGame(diceSidesArray, handStartingLevelArray, rollValueTierArray);
+
     let startIndex = 0;
     welcomeMessage();
     let currentRoll = calculateRoll(diceSidesArray[startIndex]);
@@ -75,6 +73,10 @@ function startGame(diceSidesArray, handStartingLevelArray, rollValueTierArray) {
     let currentMinTier = calculateHandLevel(currentRoll, startIndex, handStartingLevelArray, rollValueTierArray);
     displayHandLevel(currentMinTier);
 }
+// welcome
+// function startGame(diceSidesArray, handStartingLevelArray, rollValueTierArray) {
+    
+// }
 
 
 
