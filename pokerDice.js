@@ -70,6 +70,8 @@ function runPokerDice() {
     let giveHand = false;
     let userHand;
     let compHand;
+    let usedCards;
+    let flopCards;
 
     while (continueGame) {
         let currentRoll = calculateRoll(diceSidesArray[currentIndex]);
@@ -83,17 +85,23 @@ function runPokerDice() {
         if (continueGame) {
             continueGame = rollAgain(currentIndex, diceSidesArray);
             if (continueGame === false) {
-               userHand = dealHand(currentMinTier, handRankArray);
-               compHand = dealHand(0, handRankArray);
-               displayHands(userHand, compHand);
-               combineHandCards(userHand, compHand);
+                // function?
+                userHand = dealHand(currentMinTier, handRankArray);
+                compHand = dealHand(0, handRankArray);
+                displayHands(userHand, compHand);
+                usedCards = combineHandCards(userHand, compHand);
+                flopCards = generateFlop(usedCards, allCardsArray);
+                displayFlop(flopCards);
             }
         }
         else {
+            // function? (2)
             userHand = (dealHand(currentMinTier, handRankArray));
             compHand = dealHand(0, handRankArray);
             displayHands(userHand, compHand);
-            combineHandCards(userHand, compHand);
+            usedCards = combineHandCards(userHand, compHand);
+            flopCards = generateFlop(usedCards, allCardsArray);
+            displayFlop(flopCards);
         }
         currentIndex++;
     }
@@ -171,11 +179,11 @@ function displayRollResults(rollValue, diceSides, handStartingTier) {
 function displayHandLevel(minimumHandIndex) {
     let continuePlay = false;
     if (minimumHandIndex === 0) {
-        console.log("You rolled too low so you get a random hand 😢");
+        console.log("You rolled too low so you get a random hand. 😢 \n \n");
         return continuePlay;
     }
     else {
-        console.log("If you stop rolling now your minimum hand will be Level " + minimumHandIndex + ".");
+        console.log("If you stop rolling now your minimum hand will be Level " + minimumHandIndex + ". \n \n");
         continuePlay = true;
         return continuePlay;
     }
@@ -213,8 +221,13 @@ function generateFlop(usedCards, allCardsArray) {
         usedCards += flopCards[i];
         cardsAvailable = removeUsedCards(usedCards, allCardsArray);
     }
-
     return flopCards;
+}
+
+//
+function displayFlop(flopCards) {
+    let flopString = flopCards.join(' ');
+    console.log("The Flop is: " + flopString);
 
 }
 
