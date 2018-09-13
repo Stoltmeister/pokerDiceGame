@@ -76,10 +76,13 @@ function runPokerDice() {
         continueGame = displayHandLevel(currentMinTier);
         currentIndex++;
         if (continueGame) {
-            giveHand = !rollAgain();
+            continueGame = rollAgain(currentIndex, diceSidesArray);
+            if (continueGame === false) {
+               console.log(dealHand(currentMinTier, handRankArray));
+            }
         }
         else {
-            console.log("giving hand");
+            console.log(dealHand(currentMinTier, handRankArray));
         }
     }
 }
@@ -99,11 +102,13 @@ function welcomeMessage() {
     }
     return isReady;
 }
-// asdfasdf
-function rollAgain() {
+// somehow recoded displayNextDie with some added functionality
+// Working [✔]
+function rollAgain(nextDiceIndex, diceArray) {
     let isRollingAgain = false;
+    let nextDiceSides = diceArray[nextDiceIndex + 1]
     while (!isRollingAgain) {
-        let input = prompt("Do you want to roll the next dice type: 'y' or 'n' ");
+        let input = prompt("Do you want to roll the next die with " + nextDiceSides + " sides: 'y' or 'n' ");
         if (input === 'y') {
             isRollingAgain = true;
             return isRollingAgain;
@@ -116,11 +121,10 @@ function rollAgain() {
 }
 // display next available dice roll to user and returns (y/n) if they wish to roll
 // Working [✔]
-function displayNextDie(previousDieIndex, diceArray) {
-    let nextDiceSides = diceArray[previousDieIndex + 1]
-    let rollNext = prompt("The next available dice is a " + nextDiceSides + " sided die. Do you wish to roll it? (Y/N) ");
-    return rollNext;
-}
+// function displayNextDie(previousDieIndex, diceArray) {
+//     let nextDiceSides = diceArray[previousDieIndex + 1]
+//     let rollNext = prompt("The next available dice is a " + nextDiceSides + " sided die.");
+// }
 
 // calculate dice roll (based on number of sides)
 // Working [✔]
