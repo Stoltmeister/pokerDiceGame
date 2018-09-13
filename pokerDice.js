@@ -59,8 +59,8 @@ function runPokerDice() {
     let handStartingLevelArray = [1, 2, 3, 4, 5, 6];
 
     // FUNCTION TESTING ZONE!: 
-    let randomCards = ["J", "T", "8", "8", "8", "9", "2"];
-    console.log(isFourOfAKind(randomCards));
+    let randomCards = ["J", "T", "T", "2", "8", "9", "A"];
+    console.log(isPair(randomCards));
 
 }
 
@@ -207,6 +207,8 @@ function isFourOfAKind(cards) {
 }
 // Full House
 function isFullHouse(cards) {
+    let tripsCounter = 0;
+    let pairCounter = 0;
 
 }
 
@@ -222,8 +224,24 @@ function isTwoPair() {
 
 }
 
-function isPair() {
+function isPair(cards) {
+let cardChecked;
+let counter = 0;
 
+for (let i = 0; i < cards.length; i++) {
+    cardChecked = cards[i];
+    for (let j = 0; j < cards.length; j++) {
+        if (cardChecked === cards[j]) {
+            counter++;
+        }
+    }
+    if (counter > 1) {
+        return true;
+    }
+    // clear counter
+    counter = 0;
+}
+    return false;
 }
 
 
