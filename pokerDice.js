@@ -262,25 +262,38 @@ function removeUsedCards(usedCards, allCardsArray) {
 
 // likely biggest function - score a hand with the best combo of cards
 // Working []
-function evaluateScore(flopCards, handCards) {
-    let score;
-    let cardsAvailable = flopCards + handCards;
+function evaluateScore(cards) {
 
     // win conditions from best combinations to worst(no suits)
-    isFourOfAKind();
-    isFullHouse();
-    isStraight();
-    isThreeOfAKind();
-    isTwoPair();
-    isPair();
-    isHighCard();
-    // Straight
-    // Three of a kind
-    // Two Pair
-    // Pair
-    // High Card
-
-    return winner;
+    if (isFourOfAKind(cards)) {
+        console.log("You have four of a kind!");
+        return 6;
+    }
+    else if (isFullHouse(cards)) {
+        console.log("You have a Full House!");
+        return 5;
+    }
+    else if (isStraight(cards)) {
+        console.log("You have a straight!");
+        return 4;
+    }
+    else if (isThreeOfAKind(cards)) {
+        console.log("You have 3 of a kind!");
+        return 3;
+    } 
+    else if (isTwoPair(cards)) {
+        console.log("You have two pairs!");
+        return 2;
+    }
+    else if (isPair(cards)) {
+        console.log("You have a Pair!");
+        return 1;
+    }
+    else {
+        let highestCard = isHighCard(cards);
+        console.log("You have high card " + highestCard);
+        return 0;
+    }
 }
 
 // Working [✔]
@@ -409,7 +422,15 @@ function isPair(cards) {
 
 // probably only need one of these next two functions
 function highestCard(cards, cardOrderArray) {
-
+    function sortNumber(a, b) {
+        return a - b;
+    }
+    cards.sort(sortNumber);
+    
+    let highestCardIndex = cardOrderArray.indexOf(cards.length - 1);
+    let highestCard = cardOrderArray[HighestCardIndex];
+    console.log("the highest card is " + highestCard);
+    return highestCard;
 }
 
 // if both cards have same win condition find winner/determine if chop
