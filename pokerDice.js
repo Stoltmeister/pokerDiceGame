@@ -141,8 +141,8 @@ function postRollActions(allCardsArray, currentMinTier, handRankArray, cardOrder
         return;
     }
     else {
-            console.log("Whoever has the high card is the winner");
-        } 
+        console.log("Whoever has the high card is the winner");
+    }
 }
 // somehow recoded displayNextDie with some added functionality
 // Working [✔]
@@ -300,7 +300,7 @@ function removeUsedCards(usedCards, allCardsArray) {
 // likely biggest function - score a hand with the best combo of cards
 // Working []
 function evaluateScore(cards, cardOrderArray, player) {
-    
+
     // win conditions from best combinations to worst(no suits)
     if (isFourOfAKind(cards) === true) {
         console.log(player + " has four of a kind!");
@@ -310,14 +310,14 @@ function evaluateScore(cards, cardOrderArray, player) {
         console.log(player + " has a Full House!");
         return 5;
     }
-    // else if (isStraight(cards, cardOrderArray) === true) {
-    //     console.log(player + " has a straight!");
-    //     return 4;
-    // }
+    else if (isStraight(cards, cardOrderArray) === true) {
+        console.log(player + " has a straight!");
+        return 4;
+    }
     else if (isThreeOfAKind(cards) === true) {
         console.log(player + " has 3 of a kind!");
         return 3;
-    } 
+    }
     else if (isTwoPair(cards) === true) {
         console.log(player + " has two pairs!");
         return 2;
@@ -379,8 +379,11 @@ function isStraight(cards, cardOrderArray) {
     for (let j = 1; j < cardIndexArray.length; j++) {
         if (cardIndexArray[j] !== cardIndexArray[j - 1] + 1) {
             strikes++;
+            if (j >= 3 && strikes > 1) {
+                return false;
+            }
         }
-        if (strikes === 3) {
+        if (strikes >= 3) {
             return false;
         }
     }
@@ -463,7 +466,7 @@ function highestCard(cards, cardOrderArray) {
         return a - b;
     }
     cards.sort(sortNumber);
-    
+
     let highestCardIndex = cardOrderArray.indexOf(cards.length - 1);
     let highestCard = cardOrderArray.indexOf(cards[cards.length - 1]);
     return highestCard;

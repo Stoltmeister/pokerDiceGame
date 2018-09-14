@@ -1,18 +1,35 @@
 
 
 let cardOrderArray = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
-let cards = ["2", "3", "4", "5", "6"];
+let cards = ["2", "3", "4", "5", "7", "A", "6"];
 
-let highCard = highestCard(cards, cardOrderArray);
-console.log(highCard);
+console.log(isStraight(cards, cardOrderArray));
 
-function highestCard(cards, cardOrderArray) {
+function isStraight(cards, cardOrderArray) {
+    let cardIndexArray = [];
+    let strikes = 0;
     function sortNumber(a, b) {
         return a - b;
     }
-    cards.sort(sortNumber);
-    
-    let highestCardIndex = cardOrderArray.indexOf(cards[cards.length - 1]);
-    let highestCard = cardOrderArray[highestCardIndex];
-    return highestCard;
+
+    for (let i = 0; i < cards.length; i++) {
+        cardIndexArray.push(cardOrderArray.indexOf(cards[i]));
+    }
+
+    cardIndexArray.sort(sortNumber);
+
+    for (let j = 1; j < cardIndexArray.length; j++) {
+        if (cardIndexArray[j] !== cardIndexArray[j - 1] + 1) {
+            strikes++;
+            if (j >= 3 && strikes > 1) {
+                return false;
+            }
+        }
+        if (strikes >= 3) {
+            return false;
+        }
+    }
+    if (strikes < 3) {
+        return true;
+    }
 }
