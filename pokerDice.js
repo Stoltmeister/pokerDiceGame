@@ -141,7 +141,16 @@ function postRollActions(allCardsArray, currentMinTier, handRankArray, cardOrder
         return;
     }
     else {
-        console.log("Whoever has the high card is the winner");
+        let userHighCard = highestCard(userCards, cardOrderArray);
+        let compHighCard = highestCard(computerCards, cardOrderArray);
+        console.log("Your high card is: " + userHighCard);
+        console.log("Computer's high card is: " + compHighCard);
+        if (cardOrderArray.indexOf(userHighCard) > cardOrderArray.indexOf(compHighCard)) {
+            console.log("You Win!");
+        }
+        else {
+            console.log("You lose!")
+        }
     }
 }
 // somehow recoded displayNextDie with some added functionality
@@ -300,7 +309,7 @@ function removeUsedCards(usedCards, allCardsArray) {
 // likely biggest function - score a hand with the best combo of cards
 // Working []
 function evaluateScore(cards, cardOrderArray, player) {
-
+    
     // win conditions from best combinations to worst(no suits)
     if (isFourOfAKind(cards) === true) {
         console.log(player + " has four of a kind!");
@@ -328,7 +337,7 @@ function evaluateScore(cards, cardOrderArray, player) {
     }
     else {
         let highCard = highestCard(cards, cardOrderArray);
-        console.log("For " + player + " the highest card is " + cardOrderArray[highCard]);
+        console.log("For " + player + " the highest card is " + cardOrderArray.indexOf(highCard));
         return 0;
     }
 }
@@ -416,14 +425,14 @@ function isThreeOfAKind(cards) {
 
 // Working [✔]
 function isTwoPair(cards) {
-    let remainingCards = cards;
+    let remainingCards;
     let cardBeingChecked;
     let numPairs = 0;
     let counter = 0;
 
-    for (let i = 0; i < remainingCards.length; i++) {
-        cardBeingChecked = remainingCards[i];
-        remainingCards.splice(i, 1);
+    for (let i = 0; i < cards.length; i++) {
+        cardBeingChecked = cards[i];
+        remainingCards += cards.slice(i, 1);
         for (let j = 0; j < remainingCards.length; j++) {
             if (cardBeingChecked === remainingCards[j]) {
                 numPairs++;
@@ -465,14 +474,12 @@ function highestCard(cards, cardOrderArray) {
     function sortNumber(a, b) {
         return a - b;
     }
-    cards.sort(sortNumber);
+    let sortedCards = [];
+    for (let i = 0; i < cards.length; i++) {
+        sortedCards.push(cardOrderArray.indexOf(cards[i]));
+    }
+    sortedCards.sort(sortNumber);
 
-    let highestCardIndex = cardOrderArray.indexOf(cards.length - 1);
-    let highestCard = cardOrderArray.indexOf(cards[cards.length - 1]);
+    let highestCard = cardOrderArray[sortedCards[sortedCards.length - 1]];
     return highestCard;
-}
-
-// if both cards have same win condition find winner/determine if chop
-function compareHands(userCardCombo, compCardCombo) {
-    // basically which combo has the high card between them
 }
