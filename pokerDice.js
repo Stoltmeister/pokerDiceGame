@@ -86,22 +86,12 @@ function runPokerDice() {
             continueGame = rollAgain(currentIndex, diceSidesArray);
             if (continueGame === false) {
                 // function?
-                userHand = dealHand(currentMinTier, handRankArray);
-                compHand = dealHand(0, handRankArray);
-                displayHands(userHand, compHand);
-                usedCards = combineHandCards(userHand, compHand);
-                flopCards = generateFlop(usedCards, allCardsArray);
-                displayFlop(flopCards);
+                postRollActions(allCardsArray, currentMinTier, handRankArray, cardOrderArray);
             }
         }
         else {
             // function? (2)
-            userHand = (dealHand(currentMinTier, handRankArray));
-            compHand = dealHand(0, handRankArray);
-            displayHands(userHand, compHand);
-            usedCards = combineHandCards(userHand, compHand);
-            flopCards = generateFlop(usedCards, allCardsArray);
-            displayFlop(flopCards);
+            postRollActions(allCardsArray, currentMinTier, handRankArray, cardOrderArray);
         }
         currentIndex++;
     }
@@ -121,6 +111,38 @@ function welcomeMessage() {
         }
     }
     return isReady;
+}
+
+function postRollActions(allCardsArray, currentMinTier, handRankArray, cardOrderArray) {
+
+    let userHand = dealHand(currentMinTier, handRankArray);
+    let compHand = dealHand(0, handRankArray);
+    displayHands(userHand, compHand);
+    let usedCards = combineCards(userHand, compHand);
+    let flopCards = generateFlop(usedCards, allCardsArray);
+    displayFlop(flopCards);
+
+    //grade user
+    let handCardsScored = [userHand[0], userHand[1]];
+    let userCards = combineCards(handCardsScored, flopCards, true);
+    let userScore = evaluateScore(userCards, cardOrderArray, "user");
+
+    //grade computer hand
+    handCardsScored = [compHand[0], compHand[1]];
+    let computerCards = combineCards(handCardsScored, flopCards, true);
+    let compScore = evaluateScore(computerCards, cardOrderArray, "computer");
+
+    if (userScore > compScore) {
+        console.log("You are the winner!");
+        return;
+    }
+    else if (compScore > userScore) {
+        console.log("You lose!");
+        return;
+    }
+    else {
+            console.log("Whoever has the high card is the winner");
+        } 
 }
 // somehow recoded displayNextDie with some added functionality
 // Working [✔]
@@ -213,12 +235,12 @@ function displayHands(userHand, compHand) {
 function generateFlop(usedCards, allCardsArray) {
     let flopCards = [];
     let cardsAvailable = removeUsedCards(usedCards, allCardsArray);
-    let numCardsInFlop = 6;
+    let numCardsInFlop = 5;
 
     // Add each flop card to used cards
     for (let i = 0; i < numCardsInFlop; i++) {
         flopCards.push(getRandomCard(cardsAvailable));
-        usedCards += flopCards[i];
+        usedCards.push(flopCards[i]);
         cardsAvailable = removeUsedCards(usedCards, allCardsArray);
     }
     return flopCards;
@@ -240,10 +262,25 @@ function getRandomCard(remainingCardsArray) {
     return randomCard;
 }
 
+// not needed probably
+function arrayCombine(cards1, cards2) {
+    cards2.unshift(cards1.charAt(0));
+    cards2.unshift(cards1.charAt(1));
+}
 // Working [✔]
-function combineHandCards(userHand, compHand) {
-    let usedCards = userHand + compHand;
-    return usedCards;
+function combineCards(cardsSetOne, cardsSetTwo, isFlop = false) {
+    let combinedCards = [];
+    if (isFlop) {
+        for (let i = 0; i < cardsSetOne.length; i++) {
+            combinedCards.push(cardsSetOne[i]);
+        }
+        for (let j = 0; j < cardsSetTwo.length; j++) {
+            combinedCards.push(cardsSetTwo[j]);
+        }
+        return combinedCards
+    }
+    combinedCards = [cardsSetOne.charAt(0), cardsSetOne.charAt(1), cardsSetTwo.charAt(0), cardsSetTwo.charAt(1)];
+    return combinedCards;
 }
 
 // return an array with all cards left
@@ -262,36 +299,36 @@ function removeUsedCards(usedCards, allCardsArray) {
 
 // likely biggest function - score a hand with the best combo of cards
 // Working []
-function evaluateScore(cards) {
-
+function evaluateScore(cards, cardOrderArray, player) {
+    
     // win conditions from best combinations to worst(no suits)
-    if (isFourOfAKind(cards)) {
-        console.log("You have four of a kind!");
+    if (isFourOfAKind(cards) === true) {
+        console.log(player + " has four of a kind!");
         return 6;
     }
-    else if (isFullHouse(cards)) {
-        console.log("You have a Full House!");
+    else if (isFullHouse(cards) === true) {
+        console.log(player + " has a Full House!");
         return 5;
     }
-    else if (isStraight(cards)) {
-        console.log("You have a straight!");
-        return 4;
-    }
-    else if (isThreeOfAKind(cards)) {
-        console.log("You have 3 of a kind!");
+    // else if (isStraight(cards, cardOrderArray) === true) {
+    //     console.log(player + " has a straight!");
+    //     return 4;
+    // }
+    else if (isThreeOfAKind(cards) === true) {
+        console.log(player + " has 3 of a kind!");
         return 3;
     } 
-    else if (isTwoPair(cards)) {
-        console.log("You have two pairs!");
+    else if (isTwoPair(cards) === true) {
+        console.log(player + " has two pairs!");
         return 2;
     }
-    else if (isPair(cards)) {
-        console.log("You have a Pair!");
+    else if (isPair(cards) === true) {
+        console.log(player + " has a Pair!");
         return 1;
     }
     else {
-        let highestCard = isHighCard(cards);
-        console.log("You have high card " + highestCard);
+        let highCard = highestCard(cards, cardOrderArray);
+        console.log("For " + player + " the highest card is " + cardOrderArray[highCard]);
         return 0;
     }
 }
@@ -428,8 +465,7 @@ function highestCard(cards, cardOrderArray) {
     cards.sort(sortNumber);
     
     let highestCardIndex = cardOrderArray.indexOf(cards.length - 1);
-    let highestCard = cardOrderArray[HighestCardIndex];
-    console.log("the highest card is " + highestCard);
+    let highestCard = cardOrderArray.indexOf(cards[cards.length - 1]);
     return highestCard;
 }
 
