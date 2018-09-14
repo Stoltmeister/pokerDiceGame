@@ -1,5 +1,6 @@
 # pokerDiceGame
 
-- not regular poker dice as that is a thing already
-- this is focused on dice giving you better chances at a good hand
-- if you keep rolling you have greater chance of a better hand but if you roll low enough you get a random hand
+- not regular poker dice  ♠️ ♥️ ♦️ ♣️ 
+- you roll dice to determine how good your hand will be
+- the more dice you roll the better the minimum value of your hand will be
+- each time you roll you risk rolling too low and getting a random hand
