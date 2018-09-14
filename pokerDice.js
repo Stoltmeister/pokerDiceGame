@@ -337,7 +337,7 @@ function evaluateScore(cards, cardOrderArray, player) {
     }
     else {
         let highCard = highestCard(cards, cardOrderArray);
-        console.log("For " + player + " the highest card is " + cardOrderArray.indexOf(highCard));
+        console.log("For " + player + " the highest card is " + cardOrderArray[cardOrderArray.indexOf(highCard)]);
         return 0;
     }
 }
@@ -425,14 +425,14 @@ function isThreeOfAKind(cards) {
 
 // Working [✔]
 function isTwoPair(cards) {
-    let remainingCards;
+    let remainingCards = [];
     let cardBeingChecked;
     let numPairs = 0;
     let counter = 0;
 
     for (let i = 0; i < cards.length; i++) {
         cardBeingChecked = cards[i];
-        remainingCards += cards.slice(i, 1);
+        remainingCards.unshift(cards[i]);
         for (let j = 0; j < remainingCards.length; j++) {
             if (cardBeingChecked === remainingCards[j]) {
                 numPairs++;

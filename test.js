@@ -3,7 +3,7 @@
 let cardOrderArray = ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"];
 let cards = ["J", "3", "T", "K", "Q", "3", "6"];
 
-console.log(isTwoPair(cards, cardOrderArray));
+console.log(cardOrderArray[cardOrderArray.indexOf("A")]);
 
 // Working [✔]
 function isTwoPair(cards) {
